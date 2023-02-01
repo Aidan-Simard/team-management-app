@@ -94,7 +94,7 @@ class EditMemberView(View):
         if "save" in request.POST:
             form = self.form_class(request.POST)
             if form.is_valid():
-                member = Member.objects.filter(id=kwargs["id"]).update(
+                Member.objects.filter(id=kwargs["id"]).update(
                     first_name=form.cleaned_data["first_name"],
                     last_name=form.cleaned_data["last_name"],
                     email=form.cleaned_data["email"],
@@ -106,7 +106,7 @@ class EditMemberView(View):
             return redirect("/team/edit/", id=kwargs["id"])
 
         elif "delete" in request.POST:
-            member = Member.objects.get(id=kwargs["id"]).delete()
+            Member.objects.get(id=kwargs["id"]).delete()
             return HttpResponseRedirect("/team/list/")
 
         return redirect("/team/edit/", id=kwargs["id"])
