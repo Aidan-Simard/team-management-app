@@ -12,6 +12,12 @@
     justify-content: flex-end;
 }
 
+#save-container-multi {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
 body, html {
     height: 100%;
 }
@@ -37,6 +43,14 @@ body {
     flex-direction: row;
     align-items: center;
     height: 75px;
+    text-decoration: none;
+    color: black;
+}
+
+.member:hover {
+    text-decoration: none;
+    color: black;
+    
 }
 
 .profile-picture {
@@ -47,4 +61,15 @@ body {
 
 #member-list-header {
     margin-bottom: 30px;
+}
+
+#add-member-plus {
+    width: 120%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+}
+
+#add-member-plus > a {
+    text-decoration: none;
 }

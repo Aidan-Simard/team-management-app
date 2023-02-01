@@ -6,13 +6,27 @@
     <!-- Bootstrap import -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="{% static 'style.css' %}">
+    {% if member %}
+    <title>Edit Member</title>
+    {% else %}
     <title>Add Member</title>
+    {% endif %}
 </head>
 <body>
     <div id="content">
+        {% if member %}
+        <h2>Edit a team member</h2>
+        {% else %}
         <h2>Add a team member</h2>
+        {% endif %}
         <hr>
+
+
+        {% if member %}
+        <form action="/team/edit/{{ member.id }}" method="post" id="add-member-form">
+        {% else %}
         <form action="/team/add/" method="post" id="add-member-form">
+        {% endif %}
             {% csrf_token %}
             <h5>Info</h5>
             {{ form.first_name }}
@@ -21,8 +35,11 @@
             {{ form.phone }}
             <h5>Role</h5>
             {{ form.admin }}
-            <div id="save-container">
-                <input type="submit" value="Save" id="save-button" class="btn btn-primary">
+            <div id="{% if member %}save-container-multi{% else %}save-container{% endif %}">
+                {% if member %}
+                    <input type="submit" value="Delete" id="save-button" class="btn btn-danger" name="delete">
+                {% endif %}
+                <input type="submit" value="Save" id="save-button" class="btn btn-primary" name="save">
             </div>
         </form>
         <div id="input-errors">

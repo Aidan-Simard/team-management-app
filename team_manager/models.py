@@ -25,6 +25,6 @@ class Member(models.Model):
         If they are an admin, '(admin)' is appended to the end.
         """
 
-        if self.admin == "R":
+        if self.admin == "A":
             return f"{self.first_name} {self.last_name} (admin)"
         return f"{self.first_name} {self.last_name}"

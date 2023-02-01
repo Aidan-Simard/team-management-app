@@ -10,6 +10,7 @@
 </head>
 <body>
     <div id="content">
+        <h1 id="add-member-plus"><a href="{% url 'add' %}">+</a></h1>
         <div id="member-list-header">
             <h2>Team Members</h2>
             <h5>
@@ -27,14 +28,14 @@
 
         <div id="team-list">
             {% for member in members %}
-                <span class="member">
+                <a href="{% url 'edit' id=member.id %}" class="member">
                     <img src="{% static 'profile-pic.jpg'%}" class="profile-picture">
                     <div class="member-info">
                         <div>{{ member.get_full_name }}</div>
                         <div>{{ member.phone }}</div>
                         <div>{{ member.email }}</div>
                     </div>
-                </span>
+                </a>
                 <hr>
             {% endfor %}
         </div>
