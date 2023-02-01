@@ -31,3 +31,20 @@ body {
     padding: 0;
     margin: 0;
 }
+
+.member {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: 75px;
+}
+
+.profile-picture {
+    border-radius: 1000px;
+    height: 80%;
+    margin-right: 15px;
+}
+
+#member-list-header {
+    margin-bottom: 30px;
+}

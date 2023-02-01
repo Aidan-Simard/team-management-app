@@ -18,3 +18,13 @@ class Member(models.Model):
             ("A", "Admin - Can delete members"),
         ],
     )
+
+    def get_full_name(self) -> str:
+        """
+        Return the formatted name of the team member.
+        If they are an admin, '(admin)' is appended to the end.
+        """
+
+        if self.admin == "R":
+            return f"{self.first_name} {self.last_name} (admin)"
+        return f"{self.first_name} {self.last_name}"
