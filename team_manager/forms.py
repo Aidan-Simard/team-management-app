@@ -62,4 +62,5 @@ class AddForm(forms.Form):
             ("R", "Regular - Can't delete members"),
             ("A", "Admin - Can delete members"),
         ],
+        initial="R",
     )
