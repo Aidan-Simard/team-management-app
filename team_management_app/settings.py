@@ -58,7 +58,7 @@ ROOT_URLCONF = "team_management_app.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [os.path.join(PROJECT_PATH, "templates/team_manager")],
+        "DIRS": [os.path.join(PROJECT_PATH, "team_manager/templates/team_manager")],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -121,7 +121,11 @@ USE_TZ = True
 
 STATIC_URL = "static/"
 
-STATICFILES_DIRS = [os.path.join(PROJECT_PATH, "static/team_manager")]
+STATICFILES_DIRS = [
+    os.path.join(PROJECT_PATH, "team_manager/static/team_manager"),
+]
+
+STATIC_ROOT = ".static/"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
