@@ -1,6 +1,5 @@
 from django.shortcuts import render, redirect
 from django.views import View
-from django.http import HttpResponseRedirect
 from .forms import AddForm
 from .models import Member
 
@@ -40,7 +39,7 @@ class AddMemberView(View):
             )
             member.save()
 
-            return HttpResponseRedirect("/team/list/")
+            return redirect("/team/list/")
 
         return render(request, self.template_name, {"form": form})
 
@@ -74,15 +73,18 @@ class EditMemberView(View):
         """
 
         member = Member.objects.get(id=kwargs["id"])
-        form = self.form_class(
-            initial={
-                "first_name": member.first_name,
-                "last_name": member.last_name,
-                "email": member.email,
-                "phone": member.phone,
-                "admin": member.admin,
-            }
-        )
+        if "form" not in kwargs:
+            form = self.form_class(
+                initial={
+                    "first_name": member.first_name,
+                    "last_name": member.last_name,
+                    "email": member.email,
+                    "phone": member.phone,
+                    "admin": member.admin,
+                }
+            )
+        else:
+            form = kwargs["form"]
 
         return render(request, self.template_name, {"member": member, "form": form})
 
@@ -101,12 +103,13 @@ class EditMemberView(View):
                     phone=form.cleaned_data["phone"],
                     admin=form.cleaned_data["admin"],
                 )
-                return HttpResponseRedirect("/team/list/")
+                return redirect("/team/list/")
 
-            return redirect("/team/edit/", id=kwargs["id"])
+            # display errors
+            return self.get(request, form=form, id=kwargs["id"])
 
         elif "delete" in request.POST:
             Member.objects.get(id=kwargs["id"]).delete()
-            return HttpResponseRedirect("/team/list/")
+            return redirect("/team/list/")
 
         return redirect("/team/edit/", id=kwargs["id"])
