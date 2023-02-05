@@ -64,3 +64,8 @@ class AddForm(forms.Form):
         ],
         initial="R",
     )
+
+    def clean_phone(self):
+        """Clean phone number input"""
+        phone = list(self.cleaned_data["phone"])
+        return "".join([num for num in phone if num.isdigit()])
