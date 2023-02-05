@@ -20,5 +20,4 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 urlpatterns = [
     path("team/", include("team_manager.urls")),
     path("admin/", admin.site.urls),
-    staticfiles_urlpatterns(),
 ]
