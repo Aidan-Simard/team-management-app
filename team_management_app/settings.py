@@ -26,7 +26,7 @@ PROJECT_PATH = os.path.realpath(os.path.dirname(__name__))
 SECRET_KEY = "django-insecure-@35w()fl*_2rz&x_+0p7+nrx*xapd4=7eke9l)-j6ceccg0a_3"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
 
@@ -124,8 +124,6 @@ STATIC_URL = "static/"
 STATICFILES_DIRS = [
     os.path.join(PROJECT_PATH, "team_manager/static/team_manager"),
 ]
-
-STATIC_ROOT = ".static/"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field

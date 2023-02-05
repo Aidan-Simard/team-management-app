@@ -75,7 +75,6 @@ class EditMemberView(DetailView):
         """
         Get request renders the template to edit a team member.
         """
-        print(kwargs)
         context = super().get_context_data(**kwargs)
         if "form" not in kwargs:
             context["form"] = self.form_class(
