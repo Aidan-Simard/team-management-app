@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.views import View
+from django.views.generic import ListView, DetailView
 from .forms import AddForm
 from .models import Member
 
@@ -44,59 +45,62 @@ class AddMemberView(View):
         return render(request, self.template_name, {"form": form})
 
 
-class ListMembersView(View):
+class ListMembersView(ListView):
     """
     View for listing current team members.
     """
 
     template_name = "list_members.html"
+    model = Member
 
-    def get(self, request, *args, **kwargs):
+    def get_context_data(self, **kwargs):
         """
         Get request renders the template to view current team members.
         """
-        members = Member.objects.all()
-        return render(request, self.template_name, {"members": members})
+        context = super().get_context_data(**kwargs)
+        return context
 
 
-class EditMemberView(View):
+class EditMemberView(DetailView):
     """
     View for editing a team member.
     """
 
     form_class = AddForm
+    model = Member
     template_name = "add_member.html"
+    slug_field = "id"
 
-    def get(self, request, *args, **kwargs):
+    def get_context_data(self, **kwargs):
         """
         Get request renders the template to edit a team member.
         """
-
-        member = Member.objects.get(id=kwargs["id"])
+        print(kwargs)
+        context = super().get_context_data(**kwargs)
         if "form" not in kwargs:
-            form = self.form_class(
+            context["form"] = self.form_class(
                 initial={
-                    "first_name": member.first_name,
-                    "last_name": member.last_name,
-                    "email": member.email,
-                    "phone": member.phone,
-                    "admin": member.admin,
+                    "first_name": context["member"].first_name,
+                    "last_name": context["member"].last_name,
+                    "email": context["member"].email,
+                    "phone": context["member"].phone,
+                    "admin": context["member"].admin,
                 }
             )
         else:
-            form = kwargs["form"]
+            context["form"] = kwargs["form"]
 
-        return render(request, self.template_name, {"member": member, "form": form})
+        return context
 
     def post(self, request, *args, **kwargs):
         """
         Post request updates the user information or deletes a user.
         """
-
         if "save" in request.POST:
+            self.object = self.get_object()
             form = self.form_class(request.POST)
             if form.is_valid():
-                Member.objects.filter(id=kwargs["id"]).update(
+                Member.objects.filter(id=kwargs["pk"]).update(
                     first_name=form.cleaned_data["first_name"],
                     last_name=form.cleaned_data["last_name"],
                     email=form.cleaned_data["email"],
@@ -106,10 +110,14 @@ class EditMemberView(View):
                 return redirect("/team/list/")
 
             # display errors
-            return self.get(request, form=form, id=kwargs["id"])
+            return render(
+                request,
+                template_name=self.template_name,
+                context=self.get_context_data(form=form),
+            )
 
         elif "delete" in request.POST:
-            Member.objects.get(id=kwargs["id"]).delete()
+            Member.objects.get(id=kwargs["pk"]).delete()
             return redirect("/team/list/")
 
-        return redirect("/team/edit/", id=kwargs["id"])
+        return redirect(f"/team/edit/{kwargs['pk']}")

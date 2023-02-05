@@ -14,10 +14,10 @@
         <div id="member-list-header">
             <h2>Team Members</h2>
             <h5>
-                {% if members|length == 1 %}
-                    You have {{ members|length }} team member.
-                {% elif members|length > 1 %}
-                    You have {{ members|length }} team members.
+                {% if object_list|length == 1 %}
+                    You have {{ object_list|length }} team member.
+                {% elif object_list|length > 1 %}
+                    You have {{ object_list|length }} team members.
                 {% else %}
                     You have no team members.
                 {% endif %}
@@ -27,8 +27,8 @@
         <hr>
 
         <div id="team-list">
-            {% for member in members %}
-                <a href="{% url 'edit' id=member.id %}" class="member">
+            {% for member in object_list %}
+                <a href="{% url 'edit' pk=member.id %}" class="member">
                     <img src="{% static 'profile-pic.jpg'%}" class="profile-picture">
                     <div class="member-info">
                         <div>{{ member.get_full_name }}</div>
